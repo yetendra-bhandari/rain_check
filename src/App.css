@@ -1,0 +1,24 @@
+:root,
+.light {
+    --background: #ffffff;
+    --background-text: #000000;
+    --ui: #24c567;
+    --ui-focus: #4ae48a;
+    --ui-background: #f3f3f3;
+    --theme: #24c567;
+    --theme-text: #ffffff;
+}
+
+.dark {
+    --background: #151f29;
+    --background-text: #bdc3c7;
+    --ui: #bdc3c7;
+    --ui-focus: #ecf0f1;
+    --ui-background: #212f3d;
+    --theme: #212f3d;
+    --theme-text: #bdc3c7;
+}
+
+main {
+    flex-grow: 1;
+}
