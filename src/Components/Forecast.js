@@ -3,8 +3,8 @@ import React, { Component } from "react";
 class Forecast extends Component {
   render() {
     return (
-      <main className="">
-        <h1>Forecast</h1>
+      <main>
+        <h1>{JSON.stringify(this.props.daily)}</h1>
       </main>
     );
   }
