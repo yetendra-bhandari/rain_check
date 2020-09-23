@@ -14,20 +14,29 @@ class App extends Component {
     this.state = {
       theme: "light",
       weatherData: null,
+      locationData: null,
     };
     if (localStorage.getItem("theme") === "dark") {
       this.state.theme = "dark";
     }
-    let weatherData = localStorage.getItem("weatherData");
-    if (weatherData !== null) {
+    const weatherData = localStorage.getItem("weatherData");
+    const locationData = localStorage.getItem("locationData");
+    if (weatherData !== null && locationData !== null) {
       this.state.weatherData = JSON.parse(weatherData);
+      this.state.locationData = JSON.parse(locationData);
     }
     this.shouldRefetch = this.shouldRefetch.bind(this);
     this.themeToggle = this.themeToggle.bind(this);
   }
   shouldRefetch() {
-    let lastFetch = localStorage.getItem("lastFetch");
-    if (lastFetch !== null && new Date().getTime() - lastFetch < 600000) {
+    const lastWeatherFetch = localStorage.getItem("lastWeatherFetch");
+    const lastLocationFetch = localStorage.getItem("lastLocationFetch");
+    if (
+      lastWeatherFetch !== null &&
+      lastLocationFetch !== null &&
+      new Date().getTime() - lastWeatherFetch < 600000 &&
+      new Date().getTime() - lastLocationFetch < 600000
+    ) {
       return false;
     }
     return true;
@@ -46,7 +55,7 @@ class App extends Component {
     if (this.shouldRefetch() && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         fetch(
-          `https://api.openweathermap.org/data/2.5/onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&exclude=minutely,hourly,alerts&appid=9940475995272066d4a856b0b54edf81`,
+          `https://api.openweathermap.org/data/2.5/onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&exclude=minutely,hourly,alerts&appid=9940475995272066d4a856b0b54edf81`,
           {
             method: "GET",
           }
@@ -62,7 +71,31 @@ class App extends Component {
                   "weatherData",
                   JSON.stringify(this.state.weatherData)
                 );
-                localStorage.setItem("lastFetch", new Date().getTime());
+                localStorage.setItem("lastWeatherFetch", new Date().getTime());
+              }
+            );
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        fetch(
+          `https://us1.locationiq.com/v1/reverse.php?key=3e09edb5833ad4&lat=${position.coords.latitude}&lon=${position.coords.longitude}&zoom=10&format=json`,
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => response.json())
+          .then((locationData) => {
+            this.setState(
+              {
+                locationData: locationData,
+              },
+              () => {
+                localStorage.setItem(
+                  "locationData",
+                  JSON.stringify(this.state.locationData)
+                );
+                localStorage.setItem("lastLocationFetch", new Date().getTime());
               }
             );
           })
@@ -88,6 +121,12 @@ class App extends Component {
                     ? this.state.weatherData.current
                     : null
                 }
+                address={
+                  this.state.locationData !== null &&
+                  this.state.locationData.address !== null
+                    ? this.state.locationData.address
+                    : null
+                }
               />
             </Route>
             <Route path="/forecast">
@@ -96,6 +135,12 @@ class App extends Component {
                   this.state.weatherData !== null &&
                   this.state.weatherData.daily !== null
                     ? this.state.weatherData.daily
+                    : null
+                }
+                address={
+                  this.state.locationData !== null &&
+                  this.state.locationData.address !== null
+                    ? this.state.locationData.address
                     : null
                 }
               />

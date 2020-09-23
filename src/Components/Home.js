@@ -5,7 +5,7 @@ class Home extends Component {
   render() {
     return (
       <main>
-        <section className="px-6 py-24 bg-theme text-theme-text flex flex-col sm:items-center leading-none">
+        <section className="px-6 h-64 bg-theme text-theme-text flex flex-col justify-center sm:items-center leading-none">
           <h1 className="text-6xl tracking-tight">Rain Check</h1>
           <h2>&nbsp;Your Very Own Weather Information App</h2>
         </section>
