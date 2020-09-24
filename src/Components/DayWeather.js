@@ -1,5 +1,6 @@
 import React from "react";
 import WeatherIcon from "./WeatherIcon";
+import Loading from "./Loading";
 import {
   toTitleCase,
   mpsToKmph,
@@ -9,26 +10,22 @@ import {
 } from "../helper.js";
 
 function DayWeather(props) {
-  if (props.weather === null || props.address === null) {
-    return (
-      <main>
-        <h1>Waiting for API</h1>
-      </main>
-    );
+  if (props.weather === null) {
+    return <Loading />;
   }
   return (
     <main>
       <div className="bg-theme text-theme-text">
-        <section className="container mx-auto px-4 pb-2 h-64 flex flex-col">
+        <section className="container mx-auto px-4 pb-2 h-64 flex flex-col overflow-hidden">
           <div className="flex justify-between">
             <div>
               <p className="flex">
-                <strong className="text-6xl font-normal">
+                <strong className="-mt-2 text-6xl font-normal">
                   {typeof props.weather.temp === "number"
                     ? props.weather.temp.toFixed(1)
                     : props.weather.temp.day.toFixed(1)}
                 </strong>
-                <strong className="text-2xl font-normal mt-4">°C</strong>
+                <strong className="text-2xl font-normal mt-2">°C</strong>
               </p>
               {typeof props.weather.temp === "object" &&
               props.weather.temp !== null ? (
@@ -55,17 +52,19 @@ function DayWeather(props) {
               <WeatherIcon wID={props.weather.weather[0].id} />
             </figure>
           </div>
-          <p className="text-xl">
+          <p className="text-xl leading-snug">
             {toTitleCase(props.weather.weather[0].description)}
           </p>
           <div className="mt-auto flex flex-col-reverse sm:flex-row sm:justify-between sm:items-end">
-            <article className="mt-1 leading-snug">
+            <article>
               <p>{secondsToDate(props.weather.dt)}</p>
-              <p className="text-xl">
-                {props.address.city}, {props.address.state}
-              </p>
+              {props.address !== null && (
+                <p className="text-xl">
+                  {props.address.city}, {props.address.state}
+                </p>
+              )}
             </article>
-            <article className="sm:text-right">
+            <article className="sm:text-right leading-tight">
               <p>Humidity: {props.weather.humidity}%</p>
               <p>Wind Speed: {mpsToKmph(props.weather.wind_speed)}km/h</p>{" "}
               <p>Wind Direction: {degToDir(props.weather.wind_deg)}</p>
