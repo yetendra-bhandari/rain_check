@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 export function toTitleCase(sentence) {
   const words = sentence.toLowerCase().split(" ");
   for (let i in words) {
@@ -8,22 +9,29 @@ export function toTitleCase(sentence) {
 export function mpsToKmph(mps) {
   return ((mps * 18) / 5).toFixed(1);
 }
+export function secondsToDate(seconds) {
+  return dayjs(seconds * 1000).format("dddd, MMMM D");
+}
+
 export function degToDir(degrees) {
   if (degrees > 337.5 && degrees < 22.5) {
-    return "N";
+    return "North";
   } else if (degrees > 22.5 && degrees < 67.5) {
-    return "NE";
+    return "North-East";
   } else if (degrees > 67.5 && degrees < 112.5) {
-    return "E";
+    return "East";
   } else if (degrees > 112.5 && degrees < 157.5) {
-    return "SE";
+    return "South-East";
   } else if (degrees > 157.5 && degrees < 202.5) {
-    return "S";
+    return "South";
   } else if (degrees < 202.5 && degrees > 247.5) {
-    return "SW";
+    return "South West";
   } else if (degrees < 247.5 && degrees > 292.5) {
-    return "W";
+    return "West";
   } else {
-    return "NW";
+    return "North-West";
   }
+}
+export function secondsToTime(seconds) {
+  return dayjs(seconds * 1000).format("h:mm a");
 }

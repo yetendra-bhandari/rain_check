@@ -41,6 +41,7 @@ class Navigation extends Component {
         <button
           onClick={this.props.themeToggle}
           className="ml-4 text-ui hover:text-ui-focus focus:outline-none focus:text-ui-focus"
+          title="Change Theme"
         >
           <svg className="h-4" viewBox="0 0 20 20">
             <path

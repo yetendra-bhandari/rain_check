@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Navigation from "./Components/Navigation";
 import Home from "./Components/Home";
-import Live from "./Components/Live";
+import DayWeather from "./Components/DayWeather";
 import Forecast from "./Components/Forecast";
 import About from "./Components/About";
 import Footer from "./Components/Footer";
+import NotFound404 from "./Components/NotFound404";
 
 class App extends Component {
   constructor() {
@@ -113,9 +114,9 @@ class App extends Component {
         >
           <Navigation themeToggle={this.themeToggle} />
           <Switch>
-            <Route path="/live">
-              <Live
-                current={
+            <Route exact path="/live">
+              <DayWeather
+                weather={
                   this.state.weatherData !== null &&
                   this.state.weatherData.current !== null
                     ? this.state.weatherData.current
@@ -129,7 +130,7 @@ class App extends Component {
                 }
               />
             </Route>
-            <Route path="/forecast">
+            <Route exact path="/forecast">
               <Forecast
                 daily={
                   this.state.weatherData !== null &&
@@ -145,12 +146,9 @@ class App extends Component {
                 }
               />
             </Route>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
+            <Route exact path="/about" component={About} />
+            <Route exact path="/" component={Home} />
+            <Route path="*" component={NotFound404} />
           </Switch>
           <Footer />
         </div>
