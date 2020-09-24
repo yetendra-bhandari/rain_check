@@ -35,3 +35,6 @@ export function degToDir(degrees) {
 export function secondsToTime(seconds) {
   return dayjs(seconds * 1000).format("h:mm a");
 }
+export function secondsToWeekDay(seconds) {
+  return dayjs(seconds * 1000).format("dddd");
+}

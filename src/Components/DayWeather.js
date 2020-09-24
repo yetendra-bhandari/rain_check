@@ -48,7 +48,7 @@ function DayWeather(props) {
                 </p>
               )}
             </div>
-            <figure className="-mt-3 -mr-5 h-24 w-24 select-none">
+            <figure className="-mt-3 -mr-5 select-none">
               <WeatherIcon wID={props.weather.weather[0].id} />
             </figure>
           </div>
@@ -64,7 +64,7 @@ function DayWeather(props) {
                 </p>
               )}
             </article>
-            <article className="sm:text-right leading-tight">
+            <article className="mb-1 leading-tight sm:text-right">
               <p>Humidity: {props.weather.humidity}%</p>
               <p>Wind Speed: {mpsToKmph(props.weather.wind_speed)}km/h</p>{" "}
               <p>Wind Direction: {degToDir(props.weather.wind_deg)}</p>
