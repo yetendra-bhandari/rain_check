@@ -54,56 +54,74 @@ class App extends Component {
   }
   componentDidMount() {
     if (this.shouldRefetch() && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        fetch(
-          `https://api.openweathermap.org/data/2.5/onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&exclude=minutely,hourly,alerts&appid=9940475995272066d4a856b0b54edf81`,
-          {
-            method: "GET",
-          }
-        )
-          .then((response) => response.json())
-          .then((weatherData) => {
-            this.setState(
+      this.setState(
+        {
+          weatherData: null,
+          locationData: null,
+        },
+        () => {
+          navigator.geolocation.getCurrentPosition((position) => {
+            fetch(
+              `https://api.openweathermap.org/data/2.5/onecall?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&exclude=minutely,hourly,alerts&appid=${process.env.REACT_APP_WEATHER_API_KEY}`,
               {
-                weatherData: weatherData,
-              },
-              () => {
-                localStorage.setItem(
-                  "weatherData",
-                  JSON.stringify(this.state.weatherData)
-                );
-                localStorage.setItem("lastWeatherFetch", new Date().getTime());
+                method: "GET",
               }
-            );
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-        fetch(
-          `https://us1.locationiq.com/v1/reverse.php?key=3e09edb5833ad4&lat=${position.coords.latitude}&lon=${position.coords.longitude}&zoom=10&format=json`,
-          {
-            method: "GET",
-          }
-        )
-          .then((response) => response.json())
-          .then((locationData) => {
-            this.setState(
+            )
+              .then((response) => response.json())
+              .then((weatherData) => {
+                this.setState(
+                  {
+                    weatherData: weatherData,
+                  },
+                  () => {
+                    if (this.state.locationData != null) {
+                      localStorage.setItem(
+                        "weatherData",
+                        JSON.stringify(this.state.weatherData)
+                      );
+                      localStorage.setItem(
+                        "lastWeatherFetch",
+                        new Date().getTime()
+                      );
+                    }
+                  }
+                );
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+            fetch(
+              `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATION_API_KEY}&lat=${position.coords.latitude}&lon=${position.coords.longitude}&zoom=10&format=json`,
               {
-                locationData: locationData,
-              },
-              () => {
-                localStorage.setItem(
-                  "locationData",
-                  JSON.stringify(this.state.locationData)
-                );
-                localStorage.setItem("lastLocationFetch", new Date().getTime());
+                method: "GET",
               }
-            );
-          })
-          .catch((error) => {
-            console.error(error);
+            )
+              .then((response) => response.json())
+              .then((locationData) => {
+                this.setState(
+                  {
+                    locationData: locationData,
+                  },
+                  () => {
+                    if (this.state.locationData != null) {
+                      localStorage.setItem(
+                        "locationData",
+                        JSON.stringify(this.state.locationData)
+                      );
+                      localStorage.setItem(
+                        "lastLocationFetch",
+                        new Date().getTime()
+                      );
+                    }
+                  }
+                );
+              })
+              .catch((error) => {
+                console.error(error);
+              });
           });
-      });
+        }
+      );
     }
   }
   render() {
@@ -148,7 +166,9 @@ class App extends Component {
             </Route>
             <Route exact path="/about" component={About} />
             <Route exact path="/" component={Home} />
-            <Route path="*" component={NotFound404} />
+            <Route path="*">
+              <NotFound404 theme={this.state.theme} />
+            </Route>
           </Switch>
           <Footer />
         </div>

@@ -1,9 +1,10 @@
 import React from "react";
 import Loading from "./Loading";
-import { toTitleCase, secondsToWeekDay } from "../helper.js";
+import { toTitleCase, secondsToMonthDay, secondsToWeekDay } from "../helper.js";
 import WeatherIcon from "./WeatherIcon";
 
 function Forecast(props) {
+  document.title = "Rain Check | Forecast";
   if (props.daily === null) {
     return <Loading />;
   }
@@ -11,24 +12,24 @@ function Forecast(props) {
   return (
     <main>
       <div className="bg-theme text-theme-text">
-        <section className="container mx-auto px-4 h-64 flex items-center justify-center">
-          <h1 className="text-6xl leading-none">7-Day Weather Forecast</h1>
+        <section className="container mx-auto px-4 h-64 flex flex-col justify-evenly leading-none">
+          <h1 className="text-6xl sm:text-center">7-Day Weather Forecast</h1>
+          {props.address !== null && (
+            <h2 className="px-1 text-xl sm:text-center">
+              {props.address.city}, {props.address.state}
+            </h2>
+          )}
         </section>
       </div>
-      {props.address !== null && (
-        <h2 className="mt-4 px-4 text-xl sm:text-center">
-          {props.address.city}, {props.address.state}
-        </h2>
-      )}
       <section className="container mx-auto p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <article className="bg-ui-background rounded-md p-2 text-center flex flex-col items-center">
-          <h3>Tomorrow</h3>
+          <h3>{`Tomorrow, ${secondsToMonthDay(props.daily[1].dt)}`}</h3>
           <figure className="-m-5 select-none">
             <WeatherIcon wID={props.daily[1].weather[0].id} />
           </figure>
           <p className="mt-4 leading-none flex items-start">
             <strong className="font-normal text-5xl">
-              {props.daily[1].temp.day}
+              {props.daily[1].temp.day.toFixed(1)}
             </strong>
             <span className="ml-0.5 mt-1 text-lg">°C</span>
           </p>
@@ -43,13 +44,17 @@ function Forecast(props) {
             key={day}
             className="bg-ui-background rounded-md p-2 text-center flex flex-col items-center"
           >
-            <h3>{secondsToWeekDay(props.daily[day].dt)}</h3>
+            <h3>
+              {`${secondsToWeekDay(props.daily[day].dt)}, ${secondsToMonthDay(
+                props.daily[day].dt
+              )}`}
+            </h3>
             <figure className="-m-5 select-none">
               <WeatherIcon wID={props.daily[day].weather[0].id} />
             </figure>
             <p className="mt-4 leading-none flex items-start">
               <strong className="font-normal text-5xl">
-                {props.daily[day].temp.day}
+                {props.daily[day].temp.day.toFixed(1)}
               </strong>
               <span className="ml-0.5 mt-1 text-lg">°C</span>
             </p>

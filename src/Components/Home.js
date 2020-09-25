@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 class Home extends Component {
   render() {
+    document.title = "Rain Check";
     return (
       <main>
         <section className="px-6 h-64 bg-theme text-theme-text flex flex-col justify-center sm:items-center leading-none">

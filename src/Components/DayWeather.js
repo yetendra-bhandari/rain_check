@@ -10,6 +10,7 @@ import {
 } from "../helper.js";
 
 function DayWeather(props) {
+  document.title = "Rain Check | Live";
   if (props.weather === null) {
     return <Loading />;
   }
@@ -20,12 +21,12 @@ function DayWeather(props) {
           <div className="flex justify-between">
             <div>
               <p className="flex">
-                <strong className="-mt-2 text-6xl font-normal">
+                <strong className="text-6xl font-normal">
                   {typeof props.weather.temp === "number"
                     ? props.weather.temp.toFixed(1)
                     : props.weather.temp.day.toFixed(1)}
                 </strong>
-                <strong className="text-2xl font-normal mt-2">°C</strong>
+                <strong className="text-2xl font-normal mt-4">°C</strong>
               </p>
               {typeof props.weather.temp === "object" &&
               props.weather.temp !== null ? (
@@ -56,25 +57,18 @@ function DayWeather(props) {
             {toTitleCase(props.weather.weather[0].description)}
           </p>
           <div className="mt-auto flex flex-col-reverse sm:flex-row sm:justify-between sm:items-end">
-            <article>
-              <p>{secondsToDate(props.weather.dt)}</p>
-              {props.address !== null && (
-                <p className="text-xl">
-                  {props.address.city}, {props.address.state}
-                </p>
-              )}
-            </article>
-            <article className="mb-1 leading-tight sm:text-right">
-              <p>Humidity: {props.weather.humidity}%</p>
-              <p>Wind Speed: {mpsToKmph(props.weather.wind_speed)}km/h</p>{" "}
-              <p>Wind Direction: {degToDir(props.weather.wind_deg)}</p>
-            </article>
+            {props.address !== null && (
+              <p className="text-xl">
+                {props.address.city}, {props.address.state}
+              </p>
+            )}
+            <p className="sm:text-xl">{secondsToDate(props.weather.dt)}</p>
           </div>
         </section>
       </div>
       <section className="mt-2 container mx-auto p-4">
         <h1 className="text-2xl">Additional Weather Data</h1>
-        <article className="mt-1 grid leading-none gap-2 sm:grid-cols-2">
+        <article className="mt-1 grid leading-none gap-2 sm:grid-cols-2 lg:grid-cols-3">
           <p>
             Sunrise Time{" "}
             <strong className="font-normal text-xl">
@@ -85,6 +79,24 @@ function DayWeather(props) {
             Sunset Time{" "}
             <strong className="font-normal text-xl">
               {secondsToTime(props.weather.sunset)}
+            </strong>
+          </p>
+          <p>
+            Humidity{" "}
+            <strong className="font-normal text-xl">
+              {props.weather.humidity}%
+            </strong>
+          </p>
+          <p>
+            Speed{" "}
+            <strong className="font-normal text-xl">
+              {mpsToKmph(props.weather.wind_speed)}km/h
+            </strong>
+          </p>
+          <p>
+            Wind Direction{" "}
+            <strong className="font-normal text-xl">
+              {degToDir(props.weather.wind_deg)}
             </strong>
           </p>
           <p>

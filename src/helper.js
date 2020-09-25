@@ -32,9 +32,12 @@ export function degToDir(degrees) {
     return "North-West";
   }
 }
+export function secondsToMonthDay(seconds) {
+  return dayjs(seconds * 1000).format("MMM D");
+}
 export function secondsToTime(seconds) {
   return dayjs(seconds * 1000).format("h:mm a");
 }
 export function secondsToWeekDay(seconds) {
-  return dayjs(seconds * 1000).format("dddd");
+  return dayjs(seconds * 1000).format("ddd");
 }

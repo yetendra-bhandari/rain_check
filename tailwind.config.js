@@ -11,6 +11,7 @@ module.exports = {
         "background-text": "var(--background-text)",
         ui: "var(--ui)",
         "ui-focus": "var(--ui-focus)",
+        "ui-active": "var(--ui-active)",
         "ui-background": "var(--ui-background)",
         theme: "var(--theme)",
         "theme-text": "var(--theme-text)",
