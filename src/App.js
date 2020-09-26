@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Navigation from "./Components/Navigation";
 import Home from "./Components/Home";
-import DayWeather from "./Components/DayWeather";
+import Live from "./Components/Live";
 import Forecast from "./Components/Forecast";
 import About from "./Components/About";
 import Footer from "./Components/Footer";
@@ -22,7 +22,7 @@ class App extends Component {
     }
     const weatherData = localStorage.getItem("weatherData");
     const locationData = localStorage.getItem("locationData");
-    if (weatherData !== null && locationData !== null) {
+    if (weatherData != null && locationData != null) {
       this.state.weatherData = JSON.parse(weatherData);
       this.state.locationData = JSON.parse(locationData);
     }
@@ -33,8 +33,8 @@ class App extends Component {
     const lastWeatherFetch = localStorage.getItem("lastWeatherFetch");
     const lastLocationFetch = localStorage.getItem("lastLocationFetch");
     if (
-      lastWeatherFetch !== null &&
-      lastLocationFetch !== null &&
+      lastWeatherFetch != null &&
+      lastLocationFetch != null &&
       new Date().getTime() - lastWeatherFetch < 600000 &&
       new Date().getTime() - lastLocationFetch < 600000
     ) {
@@ -74,7 +74,7 @@ class App extends Component {
                     weatherData: weatherData,
                   },
                   () => {
-                    if (this.state.locationData != null) {
+                    if (this.state.weatherData != null) {
                       localStorage.setItem(
                         "weatherData",
                         JSON.stringify(this.state.weatherData)
@@ -133,16 +133,16 @@ class App extends Component {
           <Navigation themeToggle={this.themeToggle} />
           <Switch>
             <Route exact path="/live">
-              <DayWeather
+              <Live
                 weather={
-                  this.state.weatherData !== null &&
-                  this.state.weatherData.current !== null
+                  this.state.weatherData != null &&
+                  this.state.weatherData.current != null
                     ? this.state.weatherData.current
                     : null
                 }
                 address={
-                  this.state.locationData !== null &&
-                  this.state.locationData.address !== null
+                  this.state.locationData != null &&
+                  this.state.locationData.address != null
                     ? this.state.locationData.address
                     : null
                 }
@@ -151,14 +151,14 @@ class App extends Component {
             <Route exact path="/forecast">
               <Forecast
                 daily={
-                  this.state.weatherData !== null &&
-                  this.state.weatherData.daily !== null
+                  this.state.weatherData != null &&
+                  this.state.weatherData.daily != null
                     ? this.state.weatherData.daily
                     : null
                 }
                 address={
-                  this.state.locationData !== null &&
-                  this.state.locationData.address !== null
+                  this.state.locationData != null &&
+                  this.state.locationData.address != null
                     ? this.state.locationData.address
                     : null
                 }

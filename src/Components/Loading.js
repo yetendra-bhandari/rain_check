@@ -2,7 +2,7 @@ import React from "react";
 
 function Loading() {
   return (
-    <main className="flex">
+    <main className="flex p-4">
       <figure className="m-auto">
         {" "}
         <svg className="h-24 mx-auto animate-spin text-ui" viewBox="0 0 20 20">

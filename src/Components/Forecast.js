@@ -5,7 +5,7 @@ import WeatherIcon from "./WeatherIcon";
 
 function Forecast(props) {
   document.title = "Rain Check | Forecast";
-  if (props.daily === null) {
+  if (props.daily == null) {
     return <Loading />;
   }
   const days = [2, 3, 4, 5, 6, 7];
@@ -14,7 +14,7 @@ function Forecast(props) {
       <div className="bg-theme text-theme-text">
         <section className="container mx-auto px-4 h-64 flex flex-col justify-evenly leading-none">
           <h1 className="text-6xl sm:text-center">7-Day Weather Forecast</h1>
-          {props.address !== null && (
+          {props.address != null && (
             <h2 className="px-1 text-xl sm:text-center">
               {props.address.city}, {props.address.state}
             </h2>

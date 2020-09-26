@@ -9,9 +9,9 @@ import {
   secondsToTime,
 } from "../helper.js";
 
-function DayWeather(props) {
+function Live(props) {
   document.title = "Rain Check | Live";
-  if (props.weather === null) {
+  if (props.weather == null) {
     return <Loading />;
   }
   return (
@@ -29,7 +29,7 @@ function DayWeather(props) {
                 <strong className="text-2xl font-normal mt-4">°C</strong>
               </p>
               {typeof props.weather.temp === "object" &&
-              props.weather.temp !== null ? (
+              props.weather.temp != null ? (
                 <p className="-mt-6">
                   Minimum
                   <strong className="ml-1 text-lg font-normal tracking-wide">
@@ -57,7 +57,7 @@ function DayWeather(props) {
             {toTitleCase(props.weather.weather[0].description)}
           </p>
           <div className="mt-auto flex flex-col-reverse sm:flex-row sm:justify-between sm:items-end">
-            {props.address !== null && (
+            {props.address != null && (
               <p className="text-xl">
                 {props.address.city}, {props.address.state}
               </p>
@@ -143,4 +143,4 @@ function DayWeather(props) {
   );
 }
 
-export default DayWeather;
+export default Live;
