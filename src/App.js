@@ -126,7 +126,7 @@ class App extends Component {
   }
   render() {
     return (
-      <Router>
+      <Router basename="/rain_check">
         <div
           className={`min-h-screen flex flex-col text-background-text font-body bg-background transition-colors duration-200 ${this.state.theme}`}
         >

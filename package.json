@@ -2,12 +2,14 @@
   "name": "rain_check",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://yetendra-bhandari.github.io/rain_check",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "autoprefixer": "^10.0.0",
     "dayjs": "^1.8.36",
+    "gh-pages": "^3.1.0",
     "postcss-cli": "^8.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -16,6 +18,8 @@
     "tailwindcss": "^1.8.10"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "concurrently -n Tailwind,React 'npm run watch:css' 'react-scripts start'",
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
